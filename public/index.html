@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicação de Soma e Troco</title>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+    <link rel="stylesheet" href="styles.css" type="text/css" media="all" />
+    
+</head>
+<body class="bg-gray-100 p-4 select-none">
+    <nav class="bg-white rounded-md p-4 mb-6 shadow-md flex justify-between items-center">
+        <h1 class="text-2xl font-semibold">Caixa Rápido</h1>
+        <ul class="flex space-x-4">
+            <li><a href="pages/register.html" class="text-gray-700 hover:text-gray-900">Cadastro de Produtos</a></li>
+            <li><a href="pages/dashboard.html" class="text-gray-700 hover:text-gray-900">Lista de Produtos</a></li>
+        </ul>
+    </nav>
+    <div class="container mx-auto">
+        
+        <div id="products" class="grid grid-cols-2 gap-4 mb-36">
+            <!-- Cards dos Produtos serão gerados dinamicamente -->
+        </div>
+        
+        <div id="fixed-bar" class="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-md flex justify-between items-center">
+            <table class="w-fit">
+                <tr>
+                    <td class="text-gray-700 text-2xl font-bold px-3"><i class="fi fi-rs-money-check-edit"></i> </td>
+                    <td class="text-3xl text-blue-500 font-bold  px-3">R$ <span id="total">0.00</span></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-700 text-2xl font-bold px-3"><i class="fi fi-rs-donate"></i> </td>
+                    <td class="text-3xl text-amber-500 font-bold  px-3 overflow-scroll">R$ <span id="amount-received-display"></span></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-700 text-2xl font-bold px-3"><i class="fi fi-rs-hand-holding-usd"></i> </td>
+                    <td class="text-3xl text-green-500 font-bold  px-3">R$ <span id="change">0.00</span></td>
+                </tr>
+            </table>
+            
+            <div class="flex flex-col items-center">
+                <div id="numeric-keyboard" class="grid grid-cols-6 gap-2 w-fit">
+                    <!-- Botões do teclado numérico serão gerados aqui -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+<script src="src/js/index.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

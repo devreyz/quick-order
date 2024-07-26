@@ -1,0 +1,24 @@
+{
+  "products": [
+    {
+      "id": "05a3",
+      "name": "Café",
+      "price": 3
+    },
+    {
+      "id": "303d",
+      "name": "Coca",
+      "price": 5
+    },
+    {
+      "id": "2a2d",
+      "name": "Pão",
+      "price": 1
+    },
+    {
+      "id": "9584",
+      "name": "Coxinha",
+      "price": 3
+    }
+  ]
+}

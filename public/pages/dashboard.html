@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Listagem e Exclusão de Produtos</title>
+    <link
+      rel="stylesheet"
+      href="../styles.css"
+      type="text/css"
+      media="all" />
+  </head>
+  <body class="bg-gray-100 p-6">
+    <nav
+      class="bg-white rounded-md p-4 mb-6 shadow-md flex justify-between items-center">
+      <h1 class="text-2xl font-semibold">Caixa Rápido</h1>
+      <ul class="flex space-x-4">
+        <li>
+          <a
+            href="../"
+            class="text-gray-700 hover:text-gray-900"
+            >Início</a
+          >
+        </li>
+        <li>
+          <a
+            href="register.html"
+            class="text-gray-700 hover:text-gray-900"
+            >Cadastro de Produtos</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <div class="container mx-auto">
+      <h1 class="text-3xl font-semibold mb-8">Lista de Produtos</h1>
+      <ul
+        id="product-list"
+        class="grid grid-cols-1 gap-4"></ul>
+    </div>
+
+    <script>
+      // Função para carregar e exibir a lista de produtos
+      function loadProducts() {
+        fetch("http://localhost:3000/products")
+          .then(response => {
+            if (!response.ok) {
+              throw new Error("Erro ao carregar a lista de produtos.");
+            }
+            return response.json();
+          })
+          .then(products => {
+            const productList = document.getElementById("product-list");
+            productList.innerHTML = "";
+
+            products.forEach(product => {
+              const listItem = document.createElement("li");
+              listItem.className =
+                "bg-white p-4 rounded shadow-md flex justify-between items-center";
+
+              const productName = document.createElement("span");
+              productName.className = "text-lg font-semibold";
+              productName.textContent = product.name;
+
+              const productPrice = document.createElement("span");
+              productPrice.className = "text-lg";
+              productPrice.textContent = `R$ ${product.price.toFixed(2)}`;
+
+              const deleteButton = document.createElement("button");
+              deleteButton.className =
+                "bg-red-500 text-white px-4 py-2 rounded";
+              deleteButton.textContent = "Excluir";
+              deleteButton.onclick = () => deleteProduct(product.id);
+
+              listItem.appendChild(productName);
+              listItem.appendChild(productPrice);
+              listItem.appendChild(deleteButton);
+              productList.appendChild(listItem);
+            });
+          })
+          .catch(error => {
+            console.error("Erro:", error.message);
+            alert(
+              "Ocorreu um erro ao carregar a lista de produtos. Por favor, tente novamente."
+            );
+          });
+      }
+
+      // Função para excluir um produto
+      function deleteProduct(productId) {
+        if (!confirm("Tem certeza que deseja excluir este produto?")) {
+          return;
+        }
+
+        fetch(`http://localhost:3000/products/${productId}`, {
+          method: "DELETE"
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error("Erro ao excluir o produto.");
+            }
+            return response.json();
+          })
+          .then(() => {
+            loadProducts(); // Recarregar a lista de produtos após a exclusão
+          })
+          .catch(error => {
+            console.error("Erro:", error.message);
+            alert(
+              "Ocorreu um erro ao excluir o produto. Por favor, tente novamente."
+            );
+          });
+      }
+
+      // Carregar a lista de produtos ao carregar a página
+      window.onload = loadProducts;
+    </script>
+  </body>
+</html>

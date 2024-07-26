@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro de Produtos</title>
+    <link
+      rel="stylesheet"
+      href="../styles.css"
+      type="text/css"
+      media="all" />
+  </head>
+  <body class="bg-gray-100 p-6 select-none">
+    <nav
+      class="bg-white rounded-md p-4 mb-6 shadow-md flex justify-between items-center">
+      <h1 class="text-2xl font-semibold">Caixa Rápido</h1>
+      <ul class="flex space-x-4">
+        <li>
+          <a
+            href="../"
+            class="text-gray-700 hover:text-gray-900"
+            >Inicio</a
+          >
+        </li>
+        <li>
+          <a
+            href="dashboard.html"
+            class="text-gray-700 hover:text-gray-900"
+            >Lista de Produtos</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <div class="container mx-auto">
+      <h1 class="text-3xl font-semibold mb-8">Cadastro de Produtos</h1>
+      <form class="max-w-md bg-white rounded-md p-4 shadow-md mx-auto">
+        <div class="mb-4">
+          <label
+            for="product-name"
+            class="block text-gray-700 font-bold mb-2"
+            >Nome do Produto:</label
+          >
+          <input
+            type="text"
+            id="product-name"
+            class="border border-gray-700 rounded p-2 w-full" autocomplete="off"/>
+        </div>
+        <div class="mb-4">
+          <label
+            for="product-price"
+            class="block text-gray-700 font-bold mb-2"
+            >Preço do Produto:</label
+          >
+          <input
+            type="text"
+            pattern="[0-9]+([.][0-9]+)?"
+            id="product-price"
+            class="border border-gray-700 rounded p-2 w-full" autocomplete="off"/>
+        </div>
+        <div class="flex justify-end">
+          <button
+            type="submit"
+            class="bg-blue-500 text-white px-4 py-2 rounded">
+            Cadastrar
+          </button>
+        </div>
+      </form>
+    </div>
+    <script>
+      const productNameInput = document.getElementById("product-name");
+      const productPriceInput = document.getElementById("product-price");
+      const form = document.querySelector("form");
+
+      function isValidPrice(price) {
+        return !isNaN(parseFloat(price)) && isFinite(price);
+      }
+
+      function submitForm(event) {
+        event.preventDefault();
+
+        const productName = productNameInput.value.trim();
+        const productPrice = productPriceInput.value.trim();
+
+        if (productName === "" || !isValidPrice(productPrice)) {
+          alert("Por favor, preencha todos os campos corretamente.");
+          return;
+        }
+
+        const newProduct = {
+          name: productName,
+          price: parseFloat(productPrice)
+        };
+
+        fetch("http://localhost:3000/products", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(newProduct)
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error("Erro ao cadastrar o produto.");
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log("Produto cadastrado:", data);
+            // Limpar os campos do formulário após o cadastro bem-sucedido
+            productNameInput.value = "";
+            productPriceInput.value = "";
+          })
+          .catch(error => {
+            console.error("Erro:", error.message);
+            alert(
+              "Ocorreu um erro ao cadastrar o produto. Por favor, tente novamente."
+            );
+          });
+      }
+
+      form.addEventListener("submit", submitForm);
+    </script>
+  </body>
+</html>
